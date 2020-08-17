@@ -9,9 +9,14 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String author;
     private String description;
     private int rating;
+
+    @ManyToOne
+    private Author author;
+
+    @ManyToOne
+    private Publisher publisher;
 
     public String getDescription() {
         return description;
@@ -29,19 +34,7 @@ public class Book {
         this.rating = rating;
     }
 
-
-
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-
-
+    
     public Long getId() {
         return id;
     }

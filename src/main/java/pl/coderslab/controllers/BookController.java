@@ -20,7 +20,7 @@ public class BookController {
     public void saveBookAction() {
         Book book = new Book();
         book.setTitle("Thinking in Java");
-        book.setAuthor("Brice Eckel");
+
         bookService.saveBook(book);
 
     }
