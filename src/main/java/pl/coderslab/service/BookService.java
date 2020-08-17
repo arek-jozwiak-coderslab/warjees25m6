@@ -13,6 +13,6 @@ public class BookService {
     }
 
     public void saveBook(Book book) {
-        bookDao.saveBook(book);
+        bookDao.save(book);
     }
 }
