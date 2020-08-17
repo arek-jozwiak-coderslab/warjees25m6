@@ -1,6 +1,7 @@
 package pl.coderslab.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -12,8 +13,19 @@ public class Book {
     private String description;
     private int rating;
 
+    @ManyToMany
+    private List<Author> authors;
+
     @ManyToOne
     private Author author;
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
 
     @ManyToOne
     private Publisher publisher;
