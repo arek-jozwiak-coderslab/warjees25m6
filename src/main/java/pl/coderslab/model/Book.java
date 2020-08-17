@@ -10,6 +10,27 @@ public class Book {
     private Long id;
     private String title;
     private String author;
+    private String description;
+    private int rating;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+
+
 
     public String getAuthor() {
         return author;
@@ -18,6 +39,7 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
+
 
 
     public Long getId() {

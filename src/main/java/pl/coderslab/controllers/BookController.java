@@ -3,16 +3,16 @@ package pl.coderslab.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.coderslab.dao.BookDao;
 import pl.coderslab.model.Book;
+import pl.coderslab.service.BookService;
 
 @Controller
 public class BookController {
 
-    private final BookDao bookDao;
+    private final BookService bookService;
 
-    public BookController(BookDao bookDao) {
-        this.bookDao = bookDao;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping("/save-book")
@@ -21,7 +21,7 @@ public class BookController {
         Book book = new Book();
         book.setTitle("Thinking in Java");
         book.setAuthor("Brice Eckel");
-        bookDao.saveBook(book);
-        
+        bookService.saveBook(book);
+
     }
 }
