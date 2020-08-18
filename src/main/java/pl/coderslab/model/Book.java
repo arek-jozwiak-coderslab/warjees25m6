@@ -1,6 +1,7 @@
 package pl.coderslab.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,7 @@ public class Book {
     private int rating;
 
     @ManyToMany
-    private List<Author> authors;
+    private List<Author> authors = new ArrayList<>();
 
     @ManyToOne
     private Author author;
