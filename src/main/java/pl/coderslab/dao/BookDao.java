@@ -1,7 +1,9 @@
 package pl.coderslab.dao;
 
 import org.springframework.stereotype.Repository;
+import pl.coderslab.model.Author;
 import pl.coderslab.model.Book;
+import pl.coderslab.model.Publisher;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,5 +43,33 @@ public class BookDao {
     public void delete(Book book) {
         entityManager.remove(entityManager.contains(book) ?
                 book : entityManager.merge(book));
+    }
+
+    public List<Book> getBooksWithPublisher() {
+        return entityManager.createQuery("select b from Book b join b.publisher").getResultList();
+    }
+
+    public List<Book> getBooksForPublisher(Publisher publisher) {
+        Query query = entityManager.createQuery("select b from Book b where b.publisher = :publisher");
+        query.setParameter("publisher", publisher);
+        return query.getResultList();
+    }
+
+    public List<Book> getBooksForPublisherId(long id) {
+        Query query = entityManager.createQuery("select b from Book b where b.publisher.id = :id");
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+
+    public List<Book> getBooksForAuthor(Author author) {
+        Query query = entityManager.createQuery("select b from Book b where :author member of b.authors");
+        query.setParameter("author", author);
+        return query.getResultList();
+    }
+
+    public List<Book> getBooksForAuthorById(long id) {
+        Query query = entityManager.createQuery("select b from Book b join b.authors as au where au.id = : id");
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 }

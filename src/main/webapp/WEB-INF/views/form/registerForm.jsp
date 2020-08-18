@@ -5,10 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<form:form method="post"
-           modelAttribute="student">
-    <form:input path="firstName"  />
+<form:form method="post"  modelAttribute="pupil">
+    <form:input path="firstName" />
     <form:input path="lastName" />
+
     <input type="submit" value="Save">
 </form:form>
 </body>
