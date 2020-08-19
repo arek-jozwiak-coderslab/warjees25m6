@@ -1,14 +1,20 @@
 package pl.coderslab.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.dao.BookDao;
 import pl.coderslab.dao.PublisherDao;
+import pl.coderslab.model.Author;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.Publisher;
+import pl.coderslab.repository.BookRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -16,11 +22,24 @@ public class BookFormController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final AuthorDao authorDao;
+    private final BookRepository bookRepository;
+    private static final Logger logger = LoggerFactory.getLogger(BookFormController.class);
 
-    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao) {
+
+    @GetMapping("/book/test")
+    @ResponseBody
+    public String testRepo(Model model) {
+        Author byId = authorDao.findById(1);
+        List<Book> allByAuthorsContains = bookRepository.findAllByAuthorsContains(byId);
+        allByAuthorsContains.forEach(book -> logger.info("book {}", book.getId()));
+        return "/book/form";
+    }
+
+    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.authorDao = authorDao;
+        this.bookRepository = bookRepository;
     }
 
     @ModelAttribute("publishers")
@@ -36,7 +55,11 @@ public class BookFormController {
     }
 
     @PostMapping("/book/add")
-    public String saveForm(Book book) {
+    public String saveForm(@Valid Book book, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("allAuthors", authorDao.findAll());
+            return "/book/form";
+        }
         bookDao.save(book);
         return "redirect:/book/list";
     }

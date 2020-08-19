@@ -1,5 +1,8 @@
 package pl.coderslab.model;
 
+import org.hibernate.validator.constraints.pl.NIP;
+import org.hibernate.validator.constraints.pl.REGON;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +16,10 @@ public class Publisher {
     private Long id;
     private String firstName;
     private String lastName;
+    @NIP
+    private String nip;
+    @REGON
+    private String regon;
 
     public Long getId() {
         return id;
