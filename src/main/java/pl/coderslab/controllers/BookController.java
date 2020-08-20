@@ -14,6 +14,7 @@ import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.model.Author;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.Publisher;
+import pl.coderslab.repository.BookRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,16 +27,19 @@ public class BookController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final AuthorDao authorDao;
+    private final BookRepository bookRepository;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao) {
+    public BookController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.authorDao = authorDao;
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/save-book")
     @ResponseBody
     public void saveBookAction() {
+
         Book book = new Book();
         book.setTitle("Thinking in Java");
 
@@ -45,7 +49,9 @@ public class BookController {
         publisherDao.save(publisher);
         book.setPublisher(publisher);
 
-        bookDao.save(book);
+//        bookDao.save(book);
+        bookRepository.save(book);
+
     }
 
     @GetMapping("/save-authors")

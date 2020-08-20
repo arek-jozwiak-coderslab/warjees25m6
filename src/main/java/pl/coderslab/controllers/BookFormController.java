@@ -12,7 +12,9 @@ import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.model.Author;
 import pl.coderslab.model.Book;
 import pl.coderslab.model.Publisher;
-import pl.coderslab.repository.BookRepository;
+import pl.coderslab.repository.AuthorRepository;
+import pl.coderslab.repository.CategoryRepository;
+import pl.coderslab.repository.IBookRepository;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,24 +24,51 @@ public class BookFormController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final AuthorDao authorDao;
-    private final BookRepository bookRepository;
+    private final IBookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
+    private final AuthorRepository authorRepository;
     private static final Logger logger = LoggerFactory.getLogger(BookFormController.class);
 
+
+    @GetMapping("/book/tests")
+    @ResponseBody
+    public String testRepos() {
+
+        /**
+        Category one = categoryRepository.getOne(1l);
+        List<Book> allByCategory = bookRepository.findAllByCategory(one);
+        allByCategory.forEach(b -> logger.info("b: {}", b.getId()));
+
+        List<Book> allByCategoryId = bookRepository.findAllByCategoryId(one.getId());
+        allByCategoryId.forEach(b -> logger.info("b: {}", b.getId()));
+        */
+
+        Book firstByCat = bookRepository.findFirstByCat(1);
+        logger.info("b {}", firstByCat.getTitle());
+
+        List<Author> ar = authorRepository.getByEmailStart("ar");
+        ar.forEach(a->logger.info("a email {}", a.getEmail()));
+
+        return "";
+    }
 
     @GetMapping("/book/test")
     @ResponseBody
     public String testRepo(Model model) {
+
         Author byId = authorDao.findById(1);
         List<Book> allByAuthorsContains = bookRepository.findAllByAuthorsContains(byId);
         allByAuthorsContains.forEach(book -> logger.info("book {}", book.getId()));
         return "/book/form";
     }
 
-    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository) {
+    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, IBookRepository bookRepository, CategoryRepository categoryRepository, AuthorRepository authorRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.authorDao = authorDao;
         this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
+        this.authorRepository = authorRepository;
     }
 
     @ModelAttribute("publishers")
