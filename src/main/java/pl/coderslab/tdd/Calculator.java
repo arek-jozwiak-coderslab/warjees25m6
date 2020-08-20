@@ -17,4 +17,8 @@ public class Calculator {
             return x + y;
         }
     }
+
+    public int subtract(int i, int i1) {
+        return 0;
+    }
 }

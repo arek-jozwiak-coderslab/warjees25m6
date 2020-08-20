@@ -6,6 +6,7 @@
 </head>
 <body>
 <a href='<c:url value="/book/add"/>'>dodaj</a>
+<p><c:out value="${message}"/></p>
 <table>
     <thead>
     <tr>

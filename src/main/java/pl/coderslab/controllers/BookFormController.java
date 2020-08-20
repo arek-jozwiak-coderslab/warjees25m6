@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.dao.BookDao;
 import pl.coderslab.dao.PublisherDao;
@@ -119,8 +120,9 @@ public class BookFormController {
     }
 
     @GetMapping("/book/remove/{id}")
-    public String remove(@PathVariable int id) {
+    public String remove(@PathVariable int id, RedirectAttributes redirectAttributes) {
         bookDao.delete(bookDao.findById(id));
+        redirectAttributes.addFlashAttribute("message", "Ok usunięto");
         return "redirect:/book/list";
     }
 }
